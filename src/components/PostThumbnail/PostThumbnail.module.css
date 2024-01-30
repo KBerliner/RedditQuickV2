@@ -25,6 +25,11 @@
     display: block;
 }
 
+.thumbnail_container > p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 180px;
+}
 .thumbnail_container > img {
     width: 90%;
     height: 75%;
