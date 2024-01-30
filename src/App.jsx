@@ -35,9 +35,7 @@ function App() {
 
   return (
     <>
-      <ul>
-        <PostGrid posts={posts.length > 0 ? posts : []} />
-      </ul>
+      <PostGrid posts={posts.length > 0 ? posts : []} />
     </>
   )
 }
