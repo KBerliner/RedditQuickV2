@@ -1,19 +1,23 @@
 import { useEffect } from 'react'
 import './App.css'
 
-import importedData from './falseData';
+// import importedData from './falseData';
 
 import { useDispatch, useSelector } from 'react-redux'
-import  { loadPosts, selectPosts } from './features/post/postSlice';
+import  { loadAllPosts, selectPosts } from './features/post/postSlice';
+
+// Importing the Components
+import PostGrid from './components/PostGrid/PostGrid';
 
 function App() {
   const dispatch = useDispatch();
-  let posts = useSelector(selectPosts).posts;
-
+  let posts = useSelector(selectPosts);
+  // console.log(posts);
+  
   useEffect(() => {
-
-    // Imported Data is the false data from the falseData.js file
-    dispatch(loadPosts(importedData));
+    dispatch(loadAllPosts());
+    
+    // console.log(posts);
 
     // fetch('https://api.reddit.com/r/popular.json').then(
     //   res => {
@@ -27,11 +31,13 @@ function App() {
     //   data => {
     //   }
     // )
-  }, [])
+  }, [dispatch])
 
   return (
     <>
-      
+      <ul>
+        <PostGrid posts={posts.length > 0 ? posts : []} />
+      </ul>
     </>
   )
 }
