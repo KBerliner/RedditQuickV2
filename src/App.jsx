@@ -5,36 +5,26 @@ import './App.css'
 
 import { useDispatch, useSelector } from 'react-redux'
 import  { loadAllPosts, selectPosts } from './features/post/postSlice';
+import { loadAllSubreddits, selectSubreddits } from './features/subreddit/subredditSlice';
 
 // Importing the Components
 import PostGrid from './components/PostGrid/PostGrid';
+import SearchBar from './components/SearchBar/SearchBar';
 
 function App() {
   const dispatch = useDispatch();
   let posts = useSelector(selectPosts);
-  // console.log(posts);
+  let subreddits = useSelector(selectSubreddits);
+  // console.log(subreddits);
   
   useEffect(() => {
     dispatch(loadAllPosts());
-    
-    // console.log(posts);
-
-    // fetch('https://api.reddit.com/r/popular.json').then(
-    //   res => {
-    //     if (!res.ok) {
-    //       throw new Error("Network Error was not OK");
-    //     };
-
-    //     return res.json();
-    //   }
-    // ).then(
-    //   data => {
-    //   }
-    // )
-  }, [dispatch])
+    dispatch(loadAllSubreddits());
+  }, [dispatch]);
 
   return (
     <>
+      <SearchBar subredditList={subreddits} />
       <PostGrid posts={posts.length > 0 ? posts : []} />
     </>
   )
