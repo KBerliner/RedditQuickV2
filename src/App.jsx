@@ -4,7 +4,7 @@ import './App.css'
 // import importedData from './falseData';
 
 import { useDispatch, useSelector } from 'react-redux'
-import  { loadAllPosts, selectPosts } from './features/post/postSlice';
+import  { loadThesePosts, selectPosts } from './features/post/postSlice';
 import { loadAllSubreddits, selectSubreddits } from './features/subreddit/subredditSlice';
 
 // Importing the Components
@@ -18,7 +18,7 @@ function App() {
   // console.log(subreddits);
   
   useEffect(() => {
-    dispatch(loadAllPosts());
+    dispatch(loadThesePosts({}));
     dispatch(loadAllSubreddits());
   }, [dispatch]);
 

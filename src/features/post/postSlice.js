@@ -1,13 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import falseData from '../../falseData';
 
-export const loadAllPosts = createAsyncThunk(
-    'posts/loadAllPosts',
-    async () => {
-        const response = await fetch('https://api.reddit.com/r/popular?raw_json=1');
+export const loadThesePosts = createAsyncThunk(
+    'posts/loadThesePosts',
+    async ({ requestType, requestParameter }) => {
+        if (requestType === 'search') {
+            const response = await fetch(`https://api.reddit.com/search.json?q=${requestParameter}&raw_json=1`);
 
-        const json = await response.json();
-        return json;
+            const json = await response.json();
+            return json;
+        } else if (requestType === 'subreddit') {
+            const response = await fetch(`https://api.reddit.com/${requestParameter.split(" ").join("")}.json?raw_json=1`);
+
+            const json = await response.json();
+            return json;
+        } else {
+            const response = await fetch('https://api.reddit.com/r/popular?raw_json=1');
+    
+            const json = await response.json();
+            return json;
+        }
     }
 )
 
@@ -20,16 +31,16 @@ export const postSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        .addCase(loadAllPosts.pending, (state, action) => {
+        .addCase(loadThesePosts.pending, (state, action) => {
             state.isLoading = true;
             state.hasError = false;
         })
-        .addCase(loadAllPosts.fulfilled, (state, action) => {
+        .addCase(loadThesePosts.fulfilled, (state, action) => {
             state.isLoading = false;
             state.hasError = false;
             state.posts = action.payload.data.children.map(post => post.data);
         })
-        .addCase(loadAllPosts.rejected, (state, action) => {
+        .addCase(loadThesePosts.rejected, (state, action) => {
             state.isLoading = false;
             state.hasError = true;
         })
